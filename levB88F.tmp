@@ -1,0 +1,62 @@
+[gd_scene load_steps=10 format=4 uid="uid://yhh7bktm7sdy"]
+
+[ext_resource type="Texture2D" uid="uid://ccxhs3c2okxt3" path="res://sprites/dirt_small.aseprite" id="1_xev4p"]
+[ext_resource type="Texture2D" uid="uid://belg2ek45bnf0" path="res://sprites/skeleton.aseprite" id="2_a5smj"]
+[ext_resource type="Script" path="res://scripts/player_movement.gd" id="2_dste1"]
+[ext_resource type="Texture2D" uid="uid://bnnji7g14roc2" path="res://sprites/barrel.aseprite" id="4_mclb8"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_updxa"]
+texture = ExtResource("1_xev4p")
+texture_region_size = Vector2i(32, 32)
+0:0/0 = 0
+0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-16, -8, 16, -8, 16, 16, -16, 16)
+
+[sub_resource type="TileSet" id="TileSet_2m6ri"]
+tile_size = Vector2i(32, 32)
+physics_layer_0/collision_layer = 1
+sources/1 = SubResource("TileSetAtlasSource_updxa")
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_6dhse"]
+size = Vector2(16, 32)
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_6fir8"]
+bounce = 0.4
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ogllr"]
+
+[node name="Node2D" type="Node2D"]
+
+[node name="TileMapLayer" type="TileMapLayer" parent="."]
+tile_map_data = PackedByteArray("AAD+/wAAAQAAAAAAAAD//wAAAQAAAAAAAAAAAAAAAQAAAAAAAAABAAAAAQAAAAAAAAACAAAAAQAAAAAAAAD9/wAAAQAAAAAAAAD8/wAAAQAAAAAAAFD8////AQAAAAAAAFD8//7/AQAAAAAAAFD8//3/AQAAAAAAAFD8//z/AQAAAAAAAFADAAAAAQAAAAAAAGADAP//AQAAAAAAAGADAP7/AQAAAAAAAGADAP3/AQAAAAAAAGADAPz/AQAAAAAAAGD8//v/AQAAAAAAADD9//v/AQAAAAAAADD+//v/AQAAAAAAADD///v/AQAAAAAAADAAAPv/AQAAAAAAADABAPv/AQAAAAAAADACAPv/AQAAAAAAADADAPv/AQAAAAAAADA=")
+tile_set = SubResource("TileSet_2m6ri")
+
+[node name="CharacterBody2D" type="CharacterBody2D" parent="."]
+position = Vector2(16, -25)
+script = ExtResource("2_dste1")
+speed = 200
+
+[node name="Skeleton" type="Sprite2D" parent="CharacterBody2D"]
+position = Vector2(-16, 8)
+texture = ExtResource("2_a5smj")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D"]
+position = Vector2(-16, 8)
+shape = SubResource("RectangleShape2D_6dhse")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(0, -56)
+zoom = Vector2(3, 3)
+
+[node name="RigidBody2D" type="RigidBody2D" parent="."]
+position = Vector2(144, 16)
+mass = 0.015
+physics_material_override = SubResource("PhysicsMaterial_6fir8")
+gravity_scale = 0.86
+
+[node name="Barrel" type="Sprite2D" parent="RigidBody2D"]
+position = Vector2(-88, -32)
+texture = ExtResource("4_mclb8")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RigidBody2D"]
+position = Vector2(-88, -30)
+shape = SubResource("CapsuleShape2D_ogllr")

@@ -1,0 +1,58 @@
+[gd_scene load_steps=8 format=3 uid="uid://cssbibiml7bp4"]
+
+[ext_resource type="Texture2D" uid="uid://b1ao37vsha13i" path="res://sprites/minion.aseprite" id="1_evxag"]
+[ext_resource type="Script" uid="uid://b37edd61svv7n" path="res://scripts/minion/minion_follow.gd" id="1_gqmue"]
+[ext_resource type="Script" uid="uid://taxf4jsv76q4" path="res://scripts/minion/attack_timer.gd" id="3_b7snf"]
+[ext_resource type="PackedScene" uid="uid://bvlufu52ba8je" path="res://resources/HealthComponent.tscn" id="3_k1qtj"]
+[ext_resource type="PackedScene" uid="uid://blqtrri1sqel1" path="res://instances/hp_bar.tscn" id="4_w3cos"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_xatjo"]
+radius = 7.0
+height = 19.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_b7snf"]
+radius = 14.035668
+
+[node name="Minion" type="CharacterBody2D"]
+collision_layer = 8
+collision_mask = 5
+script = ExtResource("1_gqmue")
+
+[node name="Minion" type="Sprite2D" parent="."]
+position = Vector2(0, -6)
+texture = ExtResource("1_evxag")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CapsuleShape2D_xatjo")
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+avoidance_enabled = true
+radius = 5.0
+
+[node name="HealthComponent" parent="." instance=ExtResource("3_k1qtj")]
+max_health = 2
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 0.1
+autostart = true
+
+[node name="AttackTimer" type="Timer" parent="."]
+autostart = true
+
+[node name="ProgressBar" parent="." instance=ExtResource("4_w3cos")]
+
+[node name="AttackComponent" type="Node2D" parent="."]
+script = ExtResource("3_b7snf")
+
+[node name="Area2D" type="Area2D" parent="AttackComponent"]
+collision_layer = 8
+collision_mask = 16
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AttackComponent/Area2D"]
+shape = SubResource("CircleShape2D_b7snf")
+
+[connection signal="velocity_computed" from="NavigationAgent2D" to="." method="_on_navigation_agent_2d_velocity_computed"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
+[connection signal="timeout" from="AttackTimer" to="AttackComponent" method="_on_attack_timer_timeout"]
+[connection signal="body_entered" from="AttackComponent/Area2D" to="AttackComponent" method="_on_area_2d_body_entered"]
+[connection signal="body_exited" from="AttackComponent/Area2D" to="AttackComponent" method="_on_area_2d_body_exited"]

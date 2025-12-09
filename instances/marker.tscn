@@ -1,0 +1,72 @@
+[gd_scene load_steps=11 format=3 uid="uid://c44m4nhmuc535"]
+
+[ext_resource type="Texture2D" uid="uid://c4p7fprq8r1xq" path="res://sprites/marker-Sheet.aseprite" id="1_ufs71"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ufs71"]
+atlas = ExtResource("1_ufs71")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_l4ofp"]
+atlas = ExtResource("1_ufs71")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wglxw"]
+atlas = ExtResource("1_ufs71")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_14h8f"]
+atlas = ExtResource("1_ufs71")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_eje8h"]
+atlas = ExtResource("1_ufs71")
+region = Rect2(128, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_10xvx"]
+atlas = ExtResource("1_ufs71")
+region = Rect2(160, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_issdw"]
+atlas = ExtResource("1_ufs71")
+region = Rect2(192, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_krcin"]
+atlas = ExtResource("1_ufs71")
+region = Rect2(224, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_pme8t"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ufs71")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_l4ofp")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wglxw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_14h8f")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_eje8h")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_10xvx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_issdw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_krcin")
+}],
+"loop": false,
+"name": &"new_animation",
+"speed": 5.0
+}]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D"]
+sprite_frames = SubResource("SpriteFrames_pme8t")
+animation = &"new_animation"
+speed_scale = 2.0

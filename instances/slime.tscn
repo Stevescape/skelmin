@@ -1,31 +1,19 @@
-[gd_scene load_steps=26 format=3 uid="uid://3qldugr1p1bp"]
+[gd_scene load_steps=19 format=3 uid="uid://3qldugr1p1bp"]
 
 [ext_resource type="Script" uid="uid://bmfileexqn7ts" path="res://scripts/enemies/slime.gd" id="1_f8v8i"]
 [ext_resource type="Texture2D" uid="uid://bck7gtcvv7v6u" path="res://sprites/slime_animation.png" id="2_6l62n"]
+[ext_resource type="Texture2D" uid="uid://b223xj5tdo00p" path="res://sprites/hit_area.aseprite" id="3_sa3pb"]
 [ext_resource type="PackedScene" uid="uid://bvlufu52ba8je" path="res://resources/HealthComponent.tscn" id="3_v1vdr"]
 [ext_resource type="PackedScene" uid="uid://cy5y3bov72uj5" path="res://resources/HurtboxComponent.tscn" id="4_q47xw"]
 [ext_resource type="PackedScene" uid="uid://blqtrri1sqel1" path="res://instances/hp_bar.tscn" id="5_6l62n"]
+[ext_resource type="AnimationNodeStateMachine" uid="uid://cn03bg2du4rho" path="res://animationTree/slime.tres" id="6_v1vdr"]
+[ext_resource type="Script" uid="uid://cn1n3p4i0vtf0" path="res://resources/AttackComponent.gd" id="7_q47xw"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_p2iuu"]
 radius = 15.033297
 
-[sub_resource type="Animation" id="Animation_6l62n"]
-resource_name = "idle"
-length = 1.00005
-loop_mode = 1
-step = 0.5
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.5),
-"transitions": PackedFloat32Array(1, 1),
-"update": 1,
-"values": [0, 1]
-}
+[sub_resource type="CircleShape2D" id="CircleShape2D_hbnt5"]
+radius = 32.0
 
 [sub_resource type="Animation" id="Animation_v1vdr"]
 length = 0.001
@@ -64,6 +52,24 @@ tracks/2/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 0,
 "values": [Vector2(-16, -20)]
+}
+
+[sub_resource type="Animation" id="Animation_6l62n"]
+resource_name = "idle"
+length = 1.00005
+loop_mode = 1
+step = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [0, 1]
 }
 
 [sub_resource type="Animation" id="Animation_q47xw"]
@@ -150,57 +156,11 @@ _data = {
 &"move_right": SubResource("Animation_hbnt5")
 }
 
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_sa3pb"]
-animation = &"idle"
-
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_hbnt5"]
-animation = &"jump"
-
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_6l62n"]
-animation = &"move_left"
-
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_v1vdr"]
-animation = &"move_right"
-
-[sub_resource type="AnimationNodeBlendSpace1D" id="AnimationNodeBlendSpace1D_q47xw"]
-blend_point_0/node = SubResource("AnimationNodeAnimation_6l62n")
-blend_point_0/pos = -1.0
-blend_point_1/node = SubResource("AnimationNodeAnimation_v1vdr")
-blend_point_1/pos = 1.0
-blend_mode = 1
-
-[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_kbr5r"]
-advance_mode = 2
-
-[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_df7pn"]
-advance_mode = 2
-advance_condition = &"attacking"
-
-[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_u102i"]
-switch_mode = 2
-advance_mode = 2
-
-[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_t76m5"]
-advance_mode = 2
-advance_expression = "velocity"
-
-[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_mnq04"]
-advance_mode = 2
-advance_expression = "!velocity"
-
-[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_ogc7i"]
-advance_mode = 2
-advance_condition = &"attacking"
-
-[sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_h8am5"]
-states/Start/position = Vector2(251, 58)
-states/idle/node = SubResource("AnimationNodeAnimation_sa3pb")
-states/idle/position = Vector2(483, 58)
-states/jump/node = SubResource("AnimationNodeAnimation_hbnt5")
-states/jump/position = Vector2(655, 58)
-states/moving/node = SubResource("AnimationNodeBlendSpace1D_q47xw")
-states/moving/position = Vector2(483, 182)
-transitions = ["Start", "idle", SubResource("AnimationNodeStateMachineTransition_kbr5r"), "idle", "jump", SubResource("AnimationNodeStateMachineTransition_df7pn"), "jump", "idle", SubResource("AnimationNodeStateMachineTransition_u102i"), "idle", "moving", SubResource("AnimationNodeStateMachineTransition_t76m5"), "moving", "idle", SubResource("AnimationNodeStateMachineTransition_mnq04"), "moving", "jump", SubResource("AnimationNodeStateMachineTransition_ogc7i")]
+[sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_q47xw"]
+graph_offset = Vector2(-577.35455, 203.85452)
+nodes/AnimationNodeStateMachine/node = ExtResource("6_v1vdr")
+nodes/AnimationNodeStateMachine/position = Vector2(-80, 140)
+node_connections = [&"output", 0, &"AnimationNodeStateMachine"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_6l62n"]
 radius = 76.02631
@@ -209,11 +169,26 @@ radius = 76.02631
 collision_layer = 16
 collision_mask = 15
 input_pickable = true
+platform_floor_layers = 4294967280
 script = ExtResource("1_f8v8i")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, 2)
 shape = SubResource("CircleShape2D_p2iuu")
+
+[node name="AttackComponent" type="Node2D" parent="."]
+script = ExtResource("7_q47xw")
+attack_damage = 5
+metadata/_custom_type_script = "uid://cn1n3p4i0vtf0"
+
+[node name="Area2D" type="Area2D" parent="AttackComponent"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AttackComponent/Area2D"]
+shape = SubResource("CircleShape2D_hbnt5")
+
+[node name="hit_area" type="Sprite2D" parent="AttackComponent"]
+visible = false
+texture = ExtResource("3_sa3pb")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("2_6l62n")
@@ -241,19 +216,22 @@ libraries = {
 }
 
 [node name="AnimationTree" type="AnimationTree" parent="."]
-tree_root = SubResource("AnimationNodeStateMachine_h8am5")
+tree_root = SubResource("AnimationNodeBlendTree_q47xw")
+advance_expression_base_node = NodePath("..")
 anim_player = NodePath("../AnimationPlayer")
-parameters/conditions/attacking = false
-parameters/moving/blend_position = -0.8587048
+parameters/AnimationNodeStateMachine/conditions/attacking = false
+parameters/AnimationNodeStateMachine/moving/blend_position = -0.38772076
 
 [node name="ChaseDetection" type="Area2D" parent="."]
 collision_layer = 32
-collision_mask = 9
+collision_mask = 8
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ChaseDetection"]
 shape = SubResource("CircleShape2D_6l62n")
 
 [connection signal="input_event" from="." to="." method="_on_input_event"]
 [connection signal="velocity_computed" from="NavigationAgent2D" to="." method="_on_navigation_agent_2d_velocity_computed"]
+[connection signal="animation_finished" from="AnimationTree" to="." method="_on_animation_tree_animation_finished"]
+[connection signal="animation_finished" from="AnimationTree" to="AttackComponent" method="_on_animation_tree_animation_finished"]
 [connection signal="body_entered" from="ChaseDetection" to="." method="_on_chase_detection_body_entered"]
 [connection signal="body_exited" from="ChaseDetection" to="." method="_on_chase_detection_body_exited"]

@@ -7,10 +7,10 @@ extends CharacterBody2D
 @onready var target: Node2D = root.get_node("Player")
 @onready var nav_agent := $NavigationAgent2D as NavigationAgent2D
 
+
 var rng = globals.rng
 var min_distance: int = og_dist 
-
-
+var attacking: bool = false
 
 func _ready() -> void:
 	var nav_map = root.get_node("NavMap").get_navigation_map()
@@ -44,10 +44,16 @@ func makepath() -> void:
 	else:
 		nav_agent.target_position = self.global_position
 	
+func move() -> void:
+	move_and_slide()	
+
 func _on_timer_timeout() -> void:
-	makepath()
+	if attacking:
+		nav_agent.target_position = self.global_position
+	else:
+		makepath()
 
 
 func _on_navigation_agent_2d_velocity_computed(safe_velocity: Vector2) -> void:
 	velocity = safe_velocity
-	move_and_slide()
+	move()

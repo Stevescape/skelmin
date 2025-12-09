@@ -57,6 +57,7 @@ func _update_minion_target_all(target: Node2D):
 		
 		script.target = target
 		script.min_distance = min_distance
+		script.attacking = false
 
 func _update_minion_target_single(target: Node2D):
 	if len(minions) <= 0:
@@ -73,6 +74,7 @@ func _update_minion_target_single(target: Node2D):
 	
 	script.target = target
 	script.min_distance = min_distance
+	script.attacking = false
 	selected_minion = (selected_minion + 1) % len(minions)
 
 func _spawn_marker(mouse_pos: Vector2) -> AnimatedSprite2D:

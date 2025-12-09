@@ -1,0 +1,54 @@
+[gd_resource type="AnimationNodeStateMachine" load_steps=12 format=3 uid="uid://cn03bg2du4rho"]
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_sa3pb"]
+animation = &"idle"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_hbnt5"]
+animation = &"jump"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_6l62n"]
+animation = &"move_left"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_v1vdr"]
+animation = &"move_right"
+
+[sub_resource type="AnimationNodeBlendSpace1D" id="AnimationNodeBlendSpace1D_q47xw"]
+blend_point_0/node = SubResource("AnimationNodeAnimation_6l62n")
+blend_point_0/pos = -1.0
+blend_point_1/node = SubResource("AnimationNodeAnimation_v1vdr")
+blend_point_1/pos = 1.0
+value_label = "-0.5"
+blend_mode = 1
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_kbr5r"]
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_df7pn"]
+advance_mode = 2
+advance_condition = &"attacking"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_u102i"]
+switch_mode = 2
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_t76m5"]
+advance_mode = 2
+advance_expression = "velocity"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_mnq04"]
+advance_mode = 2
+advance_expression = "!velocity"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_ogc7i"]
+advance_mode = 2
+advance_condition = &"attacking"
+
+[resource]
+states/Start/position = Vector2(251, 58)
+states/idle/node = SubResource("AnimationNodeAnimation_sa3pb")
+states/idle/position = Vector2(483, 58)
+states/jump/node = SubResource("AnimationNodeAnimation_hbnt5")
+states/jump/position = Vector2(655, 58)
+states/moving/node = SubResource("AnimationNodeBlendSpace1D_q47xw")
+states/moving/position = Vector2(483, 182)
+transitions = ["Start", "idle", SubResource("AnimationNodeStateMachineTransition_kbr5r"), "idle", "jump", SubResource("AnimationNodeStateMachineTransition_df7pn"), "jump", "idle", SubResource("AnimationNodeStateMachineTransition_u102i"), "idle", "moving", SubResource("AnimationNodeStateMachineTransition_t76m5"), "moving", "idle", SubResource("AnimationNodeStateMachineTransition_mnq04"), "moving", "jump", SubResource("AnimationNodeStateMachineTransition_ogc7i")]

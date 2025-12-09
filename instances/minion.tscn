@@ -11,12 +11,13 @@ radius = 7.0
 height = 19.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_b7snf"]
-radius = 14.035668
+radius = 16.03122
 
 [node name="Minion" type="CharacterBody2D"]
 collision_layer = 8
-collision_mask = 5
+collision_mask = 21
 script = ExtResource("1_gqmue")
+speed = 50
 
 [node name="Minion" type="Sprite2D" parent="."]
 position = Vector2(0, -6)
@@ -28,6 +29,8 @@ shape = SubResource("CapsuleShape2D_xatjo")
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
 avoidance_enabled = true
 radius = 5.0
+avoidance_layers = 2
+avoidance_mask = 3
 
 [node name="HealthComponent" parent="." instance=ExtResource("3_k1qtj")]
 max_health = 2
